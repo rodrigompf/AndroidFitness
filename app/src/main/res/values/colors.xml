@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primaryPurple">#6A1B9A</color> <!-- Deep Purple -->
+    <color name="lightPurple">#CE93D8</color> <!-- Light Purple -->
+    <color name="white">#FFFFFF</color>
+    <color name="textGray">#757575</color>
+    <color name="darkPurple">#4A148C</color> <!-- Deep Purple -->
+    <color name="darkerPurple">#12005E</color> <!-- Even Darker Purple -->
+    <color name="darkAccent">#CE93D8</color> <!-- Light Purple Accent -->
+    <color name="darkBackground">#121212</color> <!-- Standard Dark Mode Background -->
+    <color name="lightGray">#B0BEC5</color> <!-- Secondary Text Color -->
 </resources>

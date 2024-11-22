@@ -1,7 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AndroidFitness" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Night theme for the fitness app -->
+    <style name="Theme.AndroidFitness.Night" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary and secondary colors -->
+        <item name="colorPrimary">@color/darkPurple</item>
+        <item name="colorPrimaryVariant">@color/darkerPurple</item>
+        <item name="colorSecondary">@color/darkAccent</item>
+
+        <!-- Text colors -->
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/lightGray</item>
+
+        <!-- Backgrounds -->
+        <item name="android:windowBackground">@color/darkBackground</item>
+        <item name="android:colorBackground">@color/darkBackground</item>
     </style>
 </resources>

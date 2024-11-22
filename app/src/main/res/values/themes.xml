@@ -1,9 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AndroidFitness" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="colorPrimary">@color/primaryPurple</item>
+        <item name="colorPrimaryVariant">@color/lightPurple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/lightPurple</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.AndroidFitness" parent="Base.Theme.AndroidFitness" />
+    <!-- Custom fitness app theme -->
+    <style name="Theme.AndroidFitness" parent="AppTheme">
+        <!-- Add additional overrides or customization here -->
+    </style>
 </resources>
