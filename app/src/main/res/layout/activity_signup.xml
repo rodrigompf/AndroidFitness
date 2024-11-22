@@ -82,8 +82,7 @@
                     android:backgroundTint="?colorPrimary"
                     android:textColor="?colorOnPrimary"
                     android:fontFamily="sans-serif-medium"
-                    android:paddingVertical="12dp"
-                    android:cornerRadius="30dp" />
+                    android:paddingVertical="12dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

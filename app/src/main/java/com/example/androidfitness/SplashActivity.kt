@@ -2,7 +2,7 @@ package com.example.androidfitness
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -10,11 +10,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Navegar para Login após 2 segundos
-        Handler().postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
+        // Botão "Get Started"
+        val getStartedButton: Button = findViewById(R.id.startButton)
+
+        // Ao clicar no botão, navegue para a página de registro
+        getStartedButton.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
-            finish()
-        }, 2000)
+        }
     }
 }

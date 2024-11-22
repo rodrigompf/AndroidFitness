@@ -68,9 +68,7 @@
                 android:textColor="?colorOnPrimary"
                 android:fontFamily="sans-serif-medium"
                 android:paddingVertical="12dp"
-                android:layout_marginBottom="16dp"
-                android:cornerRadius="30dp" />
-
+                android:layout_marginBottom="16dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
