@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.material:material:1.8.0")  // or the latest version
+    implementation("androidx.appcompat:appcompat:1.6.1") // Required for backward compatibility
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

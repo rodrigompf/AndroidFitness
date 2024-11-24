@@ -1,93 +1,146 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome!"
-        android:textSize="24sp"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/findPartnersButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Find Training Partners"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="8dp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:scrollbars="none">
 
-    <Button
-        android:id="@+id/exploreActivitiesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Explore Activities"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="8dp" />
+        <!-- Welcome Message -->
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome!"
+            android:textSize="30sp"
+            android:textColor="?colorPrimary"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="32dp" />
 
-    <Button
-        android:id="@+id/healthTipsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Training/Health Tips"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <!-- Button to Find Training Partners -->
+        <Button
+            android:id="@+id/findPartnersButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Training Partners"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/usersProfileButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Users Profile"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <!-- Button to Explore Activities -->
+        <Button
+            android:id="@+id/exploreActivitiesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Explore Activities"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/nutritionDietButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nutrition/Diet"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <!-- Button for Training/Health Tips -->
+        <Button
+            android:id="@+id/healthTipsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Training/Health Tips"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Settings"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <!-- Button for User Profile -->
+        <Button
+            android:id="@+id/usersProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Users Profile"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:backgroundTint="?colorSecondary"
-        android:textColor="?colorOnSecondary"
-        android:fontFamily="sans-serif-medium"
-        android:padding="12dp" />
-</LinearLayout>
+        <!-- Button for Nutrition/Diet -->
+        <Button
+            android:id="@+id/nutritionDietButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nutrition/Diet"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
+
+        <!-- Button for Settings -->
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="16sp"
+            android:textColor="?colorOnPrimary"
+            android:backgroundTint="?colorPrimary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
+
+        <!-- Logout Button -->
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textSize="16sp"
+            android:textColor="?colorOnSecondary"
+            android:backgroundTint="?colorSecondary"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
