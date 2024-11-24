@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Ao clicar no botão, navegue para a página de registro
         getStartedButton.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
