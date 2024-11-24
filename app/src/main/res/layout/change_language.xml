@@ -1,0 +1,31 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/changeLanguageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Language"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="24dp" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:entries="@array/language_options" />
+
+    <Button
+        android:id="@+id/applyLanguageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary" />
+</LinearLayout>

@@ -12,13 +12,38 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidFitness"
         tools:targetApi="31">
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".HomeScreen"/>
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true">
+
+        <activity android:name="_usersProfiles.Chat" />
+        <activity android:name="_usersProfiles.TrainingCalendar" />
+        <activity android:name="_usersProfiles.TrainingPartnerProfile" />
+        <activity android:name="_usersProfiles.UserProfiles" />
+
+        <activity android:name="_settings.ContactSupport" />
+        <activity android:name="_settings.Notifications" />
+        <activity android:name="_settings.Settings" />
+
+        <activity android:name="_personalArea.ChangeEmail" />
+        <activity android:name="_personalArea.ChangeLanguage" />
+        <activity android:name="_personalArea.ChangePassword" />
+        <activity android:name="_personalArea.ChangeTheme" />
+        <activity android:name="_personalArea.PersonalArea" />
+
+        <activity android:name="_nutricionDiet.DietPlan" />
+        <activity android:name="_nutricionDiet.IMCCalculator" />
+        <activity android:name="_nutricionDiet.NutritionDiet" />
+        <activity android:name="_nutricionDiet.NutritionismTips" />
+        <activity android:name="_nutricionDiet.NutritionistConsult" />
+
+        <activity android:name="_homeScreen.ExploreActivities" />
+        <activity android:name="_homeScreen.FindTrainingPartners" />
+        <activity android:name="_homeScreen.HomeScreen" />
+        <activity android:name="_homeScreen.TrainingHealthTips" />
+
+        <activity android:name="_main.ForgotPassword" />
+        <activity android:name="_main.SignUp" />
+        <activity android:name="_main.Login" />
+        <activity android:name="_main.SplashScreen" android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

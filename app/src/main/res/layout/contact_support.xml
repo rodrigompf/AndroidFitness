@@ -1,0 +1,31 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/contactSupportTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contact Support"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="For support, email us at support@androidfitness.com or call 1-800-FITNESS."
+        android:fontFamily="sans-serif"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/emailSupportButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email Support"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary" />
+</LinearLayout>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidFitness</string>
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+    </string-array>
+
 </resources>

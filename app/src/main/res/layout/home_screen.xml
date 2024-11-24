@@ -1,0 +1,93 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/findPartnersButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find Training Partners"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/exploreActivitiesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Explore Activities"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/healthTipsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Training/Health Tips"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/usersProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Users Profile"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/nutritionDietButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nutrition/Diet"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:backgroundTint="?colorSecondary"
+        android:textColor="?colorOnSecondary"
+        android:fontFamily="sans-serif-medium"
+        android:padding="12dp" />
+</LinearLayout>

@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Profiles"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/chatButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chat"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/trainingCalendarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Training Calendar"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/trainingPartnerProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Training Partner Profile"
+        android:backgroundTint="?colorPrimary"
+        android:textColor="?colorOnPrimary"
+        android:layout_marginBottom="8dp" />
+</LinearLayout>
