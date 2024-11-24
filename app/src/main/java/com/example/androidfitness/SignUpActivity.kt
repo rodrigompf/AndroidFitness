@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +20,15 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+
+        // Back Arrow Click Listener
+        val backArrow = findViewById<ImageView>(R.id.backArrow2)
+        backArrow.setOnClickListener {
+            // Navigate back to LoginActivity (replace with your login activity class)
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Close the current activity
+        }
 
         mAuth = FirebaseAuth.getInstance()
 
