@@ -65,7 +65,7 @@ class SignUp : AppCompatActivity() {
                     // FirebaseFirestore.getInstance().collection("users").document(user!!.uid).set(User(name, email))
 
                     // Navigate to HomeScreenActivity after registration
-                    startActivity(Intent(this, HomeScreen::class.java))
+                    startActivity(Intent(this, Login::class.java))
                     finish()
                 } else {
                     // If registration fails, display a message to the user
