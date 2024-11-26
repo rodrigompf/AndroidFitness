@@ -54,23 +54,31 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun signUpUser(name: String, email: String, password: String) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // User is successfully created
-                    val user = mAuth.currentUser
-                    Toast.makeText(baseContext, "Registration successful.", Toast.LENGTH_SHORT).show()
+        try {
+            mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // User is successfully created
+                        val user = mAuth.currentUser
+                        Toast.makeText(baseContext, "Registration successful.", Toast.LENGTH_SHORT)
+                            .show()
 
-                    // Optionally save user data to Firebase Realtime Database or Firestore
-                    // FirebaseFirestore.getInstance().collection("users").document(user!!.uid).set(User(name, email))
+                        // Optionally save user data to Firebase Realtime Database or Firestore
+                        // FirebaseFirestore.getInstance().collection("users").document(user!!.uid).set(User(name, email))
 
-                    // Navigate to HomeScreenActivity after registration
-                    startActivity(Intent(this, Login::class.java))
-                    finish()
-                } else {
-                    // If registration fails, display a message to the user
-                    Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT).show()
+                        // Navigate to HomeScreenActivity after registration
+                        startActivity(Intent(this, Login::class.java))
+                        finish()
+                    } else {
+                        // If registration fails, display a message to the user
+                        Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-            }
+        }
+        catch(ex2:Exception){
+            Toast.makeText(baseContext, ex2.message, Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
