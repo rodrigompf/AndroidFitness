@@ -14,14 +14,6 @@
         android:fontFamily="sans-serif-medium"
         android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/chatButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chat"
-        android:backgroundTint="?colorPrimary"
-        android:textColor="?colorOnPrimary"
-        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/trainingCalendarButton"
@@ -33,11 +25,12 @@
         android:layout_marginBottom="8dp" />
 
     <Button
-        android:id="@+id/trainingPartnerProfileButton"
+        android:id="@+id/profileButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Training Partner Profile"
+        android:text="Profile"
         android:backgroundTint="?colorPrimary"
         android:textColor="?colorOnPrimary"
         android:layout_marginBottom="8dp" />
+
 </LinearLayout>

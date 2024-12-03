@@ -1,9 +1,11 @@
 package _usersProfiles
 
+import _homeScreen.Chat
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.androidfitness.Profile
 import com.example.androidfitness.R
 
 class UserProfiles : AppCompatActivity() {
@@ -11,22 +13,16 @@ class UserProfiles : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_profiles)
 
-        val chatButton = findViewById<Button>(R.id.chatButton)
         val trainingCalendarButton = findViewById<Button>(R.id.trainingCalendarButton)
-        val trainingPartnerProfileButton = findViewById<Button>(R.id.trainingPartnerProfileButton)
-
-        chatButton.setOnClickListener {
-            val intent = Intent(this, Chat::class.java)
-            startActivity(intent)
-        }
+        val profileButton = findViewById<Button>(R.id.profileButton)
 
         trainingCalendarButton.setOnClickListener {
             val intent = Intent(this, TrainingCalendar::class.java)
             startActivity(intent)
         }
 
-        trainingPartnerProfileButton.setOnClickListener {
-            val intent = Intent(this, TrainingPartnerProfile::class.java)
+        profileButton.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
             startActivity(intent)
         }
     }

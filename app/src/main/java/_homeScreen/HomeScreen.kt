@@ -37,6 +37,7 @@ class HomeScreen : AppCompatActivity() {
         val userProfilesButton = findViewById<Button>(R.id.usersProfileButton)
         val nutritionDietButton = findViewById<Button>(R.id.nutritionDietButton)
         val settingsButton = findViewById<Button>(R.id.settingsButton)
+        val chatButton = findViewById<Button>(R.id.chatButton)
 
         // Set welcome message
         val currentUser = mAuth.currentUser
@@ -53,6 +54,11 @@ class HomeScreen : AppCompatActivity() {
         // Navigation to features
         findPartnersButton.setOnClickListener {
             val intent = Intent(this, FindTrainingPartners::class.java)
+            startActivity(intent)
+        }
+
+        chatButton.setOnClickListener {
+            val intent = Intent(this, Chat::class.java)
             startActivity(intent)
         }
 

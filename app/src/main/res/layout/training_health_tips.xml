@@ -2,30 +2,69 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?android:attr/windowBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Title -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Training and Health Tips"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:fontFamily="sans-serif-medium"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="20dp"
+            android:textColor="?android:attr/textColorPrimary" />
 
-        <!-- Placeholder for health tips -->
+        <!-- Training Section -->
         <TextView
-            android:id="@+id/healthTipsPlaceholder"
+            android:id="@+id/trainingSectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Health tips content will appear here."
+            android:text="🏋️ Training Tips"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/trainingTipsContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Warm up for 5–10 minutes to prepare your body.\n\n2. Focus on form rather than weight to avoid injury.\n\n3. Schedule workouts for consistency (e.g., 3–5 days a week).\n\n4. Balance strength training and cardio for all-around fitness.\n\n5. Include functional movements like squats, deadlifts, and lunges.\n\n6. Cool down and stretch to improve flexibility and reduce soreness.\n\n7. Listen to your body and rest if needed to avoid overtraining.\n\n8. Track your progress to stay motivated."
             android:textSize="16sp"
             android:fontFamily="sans-serif"
-            android:padding="8dp" />
+            android:lineSpacingExtra="6dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <!-- Health Section -->
+        <TextView
+            android:id="@+id/healthSectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🍎 Health Tips"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/healthTipsContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Stay hydrated by drinking at least 2 liters of water daily.\n\n2. Eat whole, unprocessed foods for balanced nutrition.\n\n3. Incorporate healthy fats like avocados and nuts into your diet.\n\n4. Avoid skipping meals to maintain consistent energy levels.\n\n5. Reduce screen time before bed to improve sleep quality.\n\n6. Incorporate meditation or deep breathing for stress management.\n\n7. Prioritize mental health by talking to friends or seeking support.\n\n8. Regularly move throughout the day to combat sedentary habits."
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="6dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="?android:attr/textColorSecondary" />
     </LinearLayout>
 </ScrollView>

@@ -10,10 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import _homeScreen.HomeScreen
 import com.example.androidfitness.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUp : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var nameInput: EditText
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
@@ -33,6 +35,7 @@ class SignUp : AppCompatActivity() {
         }
 
         mAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         nameInput = findViewById(R.id.nameInput)
         emailInput = findViewById(R.id.emailInput)
@@ -46,7 +49,11 @@ class SignUp : AppCompatActivity() {
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
-                signUpUser(name, email, password)
+                if (password.length >= 6) {
+                    signUpUser(name, email, password)
+                } else {
+                    Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
             }
@@ -54,31 +61,38 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun signUpUser(name: String, email: String, password: String) {
-        try {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // User is successfully created
-                        val user = mAuth.currentUser
-                        Toast.makeText(baseContext, "Registration successful.", Toast.LENGTH_SHORT)
-                            .show()
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = mAuth.currentUser
+                    val userId = user?.uid
 
-                        // Optionally save user data to Firebase Realtime Database or Firestore
-                        // FirebaseFirestore.getInstance().collection("users").document(user!!.uid).set(User(name, email))
+                    if (userId != null) {
+                        // Save user data to Firestore
+                        val userData = hashMapOf(
+                            "name" to name,
+                            "email" to email
+                        )
 
-                        // Navigate to HomeScreenActivity after registration
-                        startActivity(Intent(this, Login::class.java))
-                        finish()
+                        db.collection("users").document(userId).set(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(baseContext, "Registration successful.", Toast.LENGTH_SHORT).show()
+
+                                // Navigate to HomeScreen
+                                val intent = Intent(this, HomeScreen::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Failed to save user data: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
                     } else {
-                        // If registration fails, display a message to the user
-                        Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(this, "Failed to get user ID.", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    val errorMessage = task.exception?.localizedMessage ?: "Registration failed."
+                    Toast.makeText(baseContext, errorMessage, Toast.LENGTH_SHORT).show()
                 }
-        }
-        catch(ex2:Exception){
-            Toast.makeText(baseContext, ex2.message, Toast.LENGTH_SHORT).show()
-        }
-
+            }
     }
 }

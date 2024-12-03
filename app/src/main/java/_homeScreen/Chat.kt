@@ -1,4 +1,4 @@
-package _usersProfiles
+package _homeScreen
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

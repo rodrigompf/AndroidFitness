@@ -45,7 +45,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.firestore)
-    implementation("com.google.firebase:firebase-auth:21.0.8") // Add Firebase Authentication dependency
+    implementation("com.google.firebase:firebase-auth:21.1.0") // Add Firebase Authentication dependency
+    implementation("com.google.firebase:firebase-firestore:24.7.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
