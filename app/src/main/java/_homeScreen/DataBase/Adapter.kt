@@ -29,14 +29,14 @@ class PartnerAdapter(private val partnerList: List<PartnerProfile>) : RecyclerVi
     class PartnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val partnerNome: TextView = itemView.findViewById(R.id.partnerNome)
         private val partnerIdade: TextView = itemView.findViewById(R.id.partnerIdade)
-        private val partnerDescricao: TextView = itemView.findViewById(R.id.partnerDescricao)
+        private val partnerResumo: TextView = itemView.findViewById(R.id.partnerResumo)
         private val partnerPicture: ImageView = itemView.findViewById(R.id.partnerPicture)
 
         fun bind(partner: PartnerProfile) {
             // Bind data to UI elements
             partnerNome.text = partner.nome
             partnerIdade.text = partner.idade.toString()
-            partnerDescricao.text = partner.descricao
+            partnerResumo.text = partner.resumo
 
             // Load image using Glide
             Glide.with(itemView.context)

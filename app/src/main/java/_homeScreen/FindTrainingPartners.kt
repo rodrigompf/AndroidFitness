@@ -2,8 +2,14 @@ package _homeScreen
 
 import _homeScreen.DataBase.PartnerProfile
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RadialGradient
+import android.graphics.Shader
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class FindTrainingPartners : AppCompatActivity() {
 
     private lateinit var partnersRecyclerView: RecyclerView
+    private lateinit var glowBackground: View
     private lateinit var partnerAdapter: PartnerAdapter
     private val profiles = mutableListOf<PartnerProfile>()
 
@@ -27,67 +34,82 @@ class FindTrainingPartners : AppCompatActivity() {
         setContentView(R.layout.find_training_partners)
 
         partnersRecyclerView = findViewById(R.id.partnersRecyclerView)
+        glowBackground = findViewById(R.id.glowBackground)
         partnersRecyclerView.layoutManager = LinearLayoutManager(this)
         partnerAdapter = PartnerAdapter(profiles)
         partnersRecyclerView.adapter = partnerAdapter
 
-        // Add ItemTouchHelper for swipe gestures
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
             override fun onMove(
-                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // Remove the swiped profile from the list
-                val swipedProfile = profiles[viewHolder.adapterPosition]
-                profiles.removeAt(viewHolder.adapterPosition)
+                val swipedPosition = viewHolder.adapterPosition
+                profiles.removeAt(swipedPosition)
+                partnerAdapter.notifyItemRemoved(swipedPosition)
 
-                if (direction == ItemTouchHelper.RIGHT) {
-                    // Like the profile
-                    Log.d("Swipe", "Liked: ${swipedProfile.nome}")
-                } else if (direction == ItemTouchHelper.LEFT) {
-                    // Dislike the profile
-                    Log.d("Swipe", "Disliked: ${swipedProfile.nome}")
+                if (profiles.isEmpty()) {
+                    fetchProfilesFromFirestore() // Refill profiles if needed
                 }
-
-                // Show the next random profile
-                fetchProfilesFromFirestore()
             }
 
-            // Override onChildDraw to create falling animation when swiping
             override fun onChildDraw(
                 c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
             ) {
+                val width = recyclerView.width
                 val view = viewHolder.itemView
-                val width = view.width
 
-                // Calculate the tilt angle based on the swipe distance
-                val maxTilt = 15f // Max tilt angle (degrees)
-                val tiltFactor = (dX / width) * maxTilt
+                // Horizontal translation
+                view.translationX = dX
 
-                // Apply the tilt to the view (rotation)
-                view.rotation = tiltFactor
+                // Tilt effect
+                val maxTiltAngle = 15f // Maximum tilt angle
+                val tilt = (dX / width) * maxTiltAngle
+                view.rotation = tilt
 
-                // Make the item fade out based on swipe distance (for visual feedback)
-                val alpha = 1 - Math.abs(dX) / width // Fade out based on swipe distance
-                view.alpha = alpha
+                // Falling effect
+                view.translationY = Math.abs(dX / 10)
 
-                // Apply the falling effect (move down slightly as it's being swiped)
-                view.translationY = dY / 2 // Move vertically with the swipe
+                // Glow effect for full screen
+                val glowIntensity = Math.min(Math.abs(dX) / width, 1f)
+                val gradientDrawable = GradientDrawable(
+                    if (dX > 0) GradientDrawable.Orientation.LEFT_RIGHT else GradientDrawable.Orientation.RIGHT_LEFT,
+                    intArrayOf(
+                        Color.TRANSPARENT,
+                        if (dX > 0) Color.RED else Color.GREEN
+                    )
+                )
+                glowBackground.alpha = glowIntensity
+                glowBackground.background = gradientDrawable
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
 
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+
+                val view = viewHolder.itemView
+
+                // Reset rotation and translation when swipe ends
+                view.rotation = 0f
+                view.translationY = 0f
+
+                // Reset glow
+                glowBackground.alpha = 0f
+                glowBackground.background = null
+            }
         }
+
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(partnersRecyclerView)
 
-        // Initialize Firebase
         FirebaseApp.initializeApp(this)
-
-        // Fetch profiles from Firestore
         fetchProfilesFromFirestore()
     }
 
@@ -97,20 +119,17 @@ class FindTrainingPartners : AppCompatActivity() {
         db.collection("Perfiles")
             .get()
             .addOnSuccessListener { result ->
-                profiles.clear() // Clear any existing profiles
-
-                // Add the fetched profiles to the list
+                profiles.clear()
                 for (document in result) {
                     val partner = document.toObject(PartnerProfile::class.java)
                     profiles.add(partner)
                 }
 
-                // Show only one random profile, make sure it's not the same as before
                 if (profiles.isNotEmpty()) {
-                    val randomProfile = profiles.random()  // Get a random profile
-                    profiles.clear()  // Clear the existing list
-                    profiles.add(randomProfile)  // Add the new profile
-                    partnerAdapter.notifyDataSetChanged()  // Update the RecyclerView with the new profile
+                    val randomProfile = profiles.random()
+                    profiles.clear()
+                    profiles.add(randomProfile)
+                    partnerAdapter.notifyDataSetChanged()
                 }
             }
             .addOnFailureListener { exception ->
@@ -119,6 +138,3 @@ class FindTrainingPartners : AppCompatActivity() {
             }
     }
 }
-
-
-
