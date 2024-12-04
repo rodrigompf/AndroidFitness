@@ -1,163 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Home Screen"
+        app:titleTextColor="@android:color/white" />
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="16dp"
-        android:scrollbars="none">
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <!-- Welcome Message -->
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome!"
-            android:textSize="30sp"
-            android:textColor="?colorPrimary"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginBottom="32dp" />
-
-        <!-- Button to Find Training Partners -->
-        <Button
-            android:id="@+id/findPartnersButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Find Training Partners"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/chatButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chat"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome!"
+                android:textSize="30sp"
+                android:textColor="?colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="32dp" />
 
+            <!-- Existing Buttons -->
+            <Button
+                android:id="@+id/findPartnersButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Find Training Partners"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Button to Explore Activities -->
-        <Button
-            android:id="@+id/exploreActivitiesButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Explore Activities"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/chatButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chat"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Button for Training/Health Tips -->
-        <Button
-            android:id="@+id/healthTipsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Training/Health Tips"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/exploreActivitiesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Explore Activities"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Button for User Profile -->
-        <Button
-            android:id="@+id/usersProfileButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Users Profile"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/healthTipsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Training/Health Tips"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Button for Nutrition/Diet -->
-        <Button
-            android:id="@+id/nutritionDietButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nutrition/Diet"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/usersProfileButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Users Profile"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Button for Settings -->
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="16sp"
-            android:textColor="?colorOnPrimary"
-            android:backgroundTint="?colorPrimary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/nutritionDietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nutrition/Diet"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Logout Button -->
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:textSize="16sp"
-            android:textColor="?colorOnSecondary"
-            android:backgroundTint="?colorSecondary"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="8dp"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:layout_marginBottom="16dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

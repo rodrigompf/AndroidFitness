@@ -6,6 +6,8 @@ import _settings.Settings
 import _usersProfiles.UserProfiles
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +17,6 @@ import com.example.androidfitness.R
 class HomeScreen : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var logoutButton: Button
     private lateinit var findPartnersButton: Button
     private lateinit var exploreActivitiesButton: Button
     private lateinit var healthTipsButton: Button
@@ -28,12 +29,16 @@ class HomeScreen : AppCompatActivity() {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
 
+        // Set up Toolbar
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         // Views
-        logoutButton = findViewById(R.id.logoutButton)
         findPartnersButton = findViewById(R.id.findPartnersButton)
         exploreActivitiesButton = findViewById(R.id.exploreActivitiesButton)
         healthTipsButton = findViewById(R.id.healthTipsButton)
         welcomeText = findViewById(R.id.welcomeText)
+
         val userProfilesButton = findViewById<Button>(R.id.usersProfileButton)
         val nutritionDietButton = findViewById<Button>(R.id.nutritionDietButton)
         val settingsButton = findViewById<Button>(R.id.settingsButton)
@@ -42,14 +47,6 @@ class HomeScreen : AppCompatActivity() {
         // Set welcome message
         val currentUser = mAuth.currentUser
         welcomeText.text = "Welcome, ${currentUser?.email ?: "User"}!"
-
-        // Logout functionality
-        logoutButton.setOnClickListener {
-            mAuth.signOut()
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
-            finish()
-        }
 
         // Navigation to features
         findPartnersButton.setOnClickListener {
@@ -85,6 +82,26 @@ class HomeScreen : AppCompatActivity() {
         settingsButton.setOnClickListener {
             val intent = Intent(this, Settings::class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu
+        menuInflater.inflate(R.menu.menu_home_screen, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // Handle logout
+                mAuth.signOut()
+                val intent = Intent(this, Login::class.java)
+                startActivity(intent)
+                finish() // Close the HomeScreenActivity
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
