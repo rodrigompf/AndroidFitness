@@ -2,7 +2,6 @@ package _usersProfiles
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -38,19 +37,23 @@ class Profile : AppCompatActivity() {
             // Set Email from Auth
             emailTextView.text = currentUser.email
 
-            // Fetch Additional Data from Firestore
-            db.collection("users").document(userId).get()
+            // Check if the user already has a profile in the "Perfiles" collection
+            db.collection("Perfiles").document(userId).get()
                 .addOnSuccessListener { document ->
-                    if (document != null) {
+                    if (document.exists()) {
+                        // If profile exists, fetch the profile data
                         val userName = document.getString("name")
                         nameTextView.text = userName ?: "No Name Found"
                     } else {
-                        Log.d("Profile", "No document found for user.")
+                        // If profile doesn't exist, navigate to CreateProfile activity
+                        Toast.makeText(this, "No profile found. Please create your profile.", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, CreateProfile::class.java)
+                        startActivity(intent)
+                        finish() // Close Profile Activity
                     }
                 }
                 .addOnFailureListener { exception ->
-                    Log.e("Profile", "Error fetching user data", exception)
-                    Toast.makeText(this, "Failed to load profile data.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error checking profile: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(this, "No user is currently logged in.", Toast.LENGTH_SHORT).show()
@@ -59,8 +62,8 @@ class Profile : AppCompatActivity() {
 
         // Edit Profile Button Click Listener
         editProfileButton.setOnClickListener {
-            // Navigate to Edit Profile Activity
-            val intent = Intent(this, Profile::class.java)
+            // Navigate to Edit Profile Activity (you can create this if needed)
+            val intent = Intent(this, EditProfile::class.java)
             startActivity(intent)
         }
     }

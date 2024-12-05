@@ -1,6 +1,5 @@
 package _usersProfiles
 
-import _homeScreen.Chat
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
