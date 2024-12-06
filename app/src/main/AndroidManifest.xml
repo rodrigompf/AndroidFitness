@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,13 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidFitness"
         tools:targetApi="31">
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <activity
+            android:name="_homeScreen.PartnerDetailsActivity"
+            android:exported="false" />
 
-        <activity android:name="_main.Login" android:exported="false" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="_main.Login"
+            android:exported="false" />
         <activity android:name="_usersProfiles.CreateProfile" />
-        v<activity android:name="_usersProfiles.EditProfile" />
+        <activity android:name="_usersProfiles.EditProfile" />
         <activity android:name="_usersProfiles.TrainingCalendar" />
-        <activity android:name="_usersProfiles.Profile"/>
+        <activity android:name="_usersProfiles.Profile" />
         <activity android:name="_usersProfiles.UserProfiles" />
         <activity android:name="_settings.ContactSupport" />
         <activity android:name="_settings.Notifications" />
@@ -43,9 +51,12 @@
         <activity android:name="_homeScreen.TrainingHealthTips" />
         <activity android:name="_main.ForgotPassword" />
         <activity android:name="_main.SignUp" />
-        <activity android:name="_main.SplashScreen" android:exported="true">
+        <activity
+            android:name="_main.SplashScreen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,6 +1,7 @@
 package _homeScreen
 
 import _homeScreen.DataBase.PartnerProfile
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -35,8 +36,14 @@ class FindTrainingPartners : AppCompatActivity() {
 
         partnersRecyclerView = findViewById(R.id.partnersRecyclerView)
         glowBackground = findViewById(R.id.glowBackground)
+
         partnersRecyclerView.layoutManager = LinearLayoutManager(this)
-        partnerAdapter = PartnerAdapter(profiles)
+        partnerAdapter = PartnerAdapter(profiles) { partner ->
+
+            val intent = Intent(this, PartnerDetailsActivity::class.java)
+            intent.putExtra("PARTNER_DATA", partner)
+            startActivity(intent)
+        }
         partnersRecyclerView.adapter = partnerAdapter
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -64,18 +71,15 @@ class FindTrainingPartners : AppCompatActivity() {
                 val width = recyclerView.width
                 val view = viewHolder.itemView
 
-                // Horizontal translation
+                // Apply the translation and tilt effect
                 view.translationX = dX
 
-                // Tilt effect
-                val maxTiltAngle = 15f // Maximum tilt angle
+                val maxTiltAngle = 15f
                 val tilt = (dX / width) * maxTiltAngle
                 view.rotation = tilt
 
-                // Falling effect
                 view.translationY = Math.abs(dX / 10)
 
-                // Glow effect for full screen
                 val glowIntensity = Math.min(Math.abs(dX) / width, 1f)
                 val gradientDrawable = GradientDrawable(
                     if (dX > 0) GradientDrawable.Orientation.LEFT_RIGHT else GradientDrawable.Orientation.RIGHT_LEFT,
@@ -94,17 +98,13 @@ class FindTrainingPartners : AppCompatActivity() {
                 super.clearView(recyclerView, viewHolder)
 
                 val view = viewHolder.itemView
-
-                // Reset rotation and translation when swipe ends
                 view.rotation = 0f
                 view.translationY = 0f
 
-                // Reset glow
                 glowBackground.alpha = 0f
                 glowBackground.background = null
             }
         }
-
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(partnersRecyclerView)
@@ -120,6 +120,7 @@ class FindTrainingPartners : AppCompatActivity() {
             .get()
             .addOnSuccessListener { result ->
                 profiles.clear()
+
                 for (document in result) {
                     val partner = document.toObject(PartnerProfile::class.java)
                     profiles.add(partner)
