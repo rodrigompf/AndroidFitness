@@ -47,6 +47,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
 
+    //Zoom
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+
     // Material Components
     implementation("com.google.android.material:material:1.9.0")
 

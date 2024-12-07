@@ -8,49 +8,65 @@
     tools:context="_homeScreen.PartnerDetailsActivity">
 
     <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
-
-    <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-        <!-- Partner Image -->
-        <ImageView
-            android:id="@+id/partnerDetailImage"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="16dp" />
+            android:layout_height="wrap_content">
 
-        <!-- Partner Name -->
-        <TextView
-            android:id="@+id/partnerDetailName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            <!-- Partner Main Image -->
+            <ImageView
+                android:id="@+id/partnerDetailImage"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
 
-        <!-- Partner Age -->
-        <TextView
-            android:id="@+id/partnerDetailAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            <!-- Partner Name -->
+            <TextView
+                android:id="@+id/partnerDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
-        <!-- Partner Description -->
-        <TextView
-            android:id="@+id/partnerDetailDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            <!-- Partner Age -->
+            <TextView
+                android:id="@+id/partnerDetailAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp" />
 
-    </LinearLayout>
+            <!-- Partner Description -->
+            <TextView
+                android:id="@+id/partnerDetailDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
-</ScrollView>
+            <!-- Horizontal Layout for Additional Photos -->
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:id="@+id/HorizontalLayout"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
