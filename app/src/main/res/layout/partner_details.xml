@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -15,15 +16,21 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:minHeight="700dp"
+            android:background="@drawable/rounded_cornour"
+            android:padding="16dp">
 
             <!-- Partner Main Image -->
             <ImageView
                 android:id="@+id/partnerDetailImage"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Partner main image"
+                android:background="@drawable/circle_background" />
 
             <!-- Partner Name -->
             <TextView
@@ -32,7 +39,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:textColor="@color/lightPurple"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                tools:text="John Doe" />
 
             <!-- Partner Age -->
             <TextView
@@ -40,28 +51,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
+                android:textColor="@color/lightPurple"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                tools:text="Age: 29" />
 
             <!-- Partner Description -->
             <TextView
                 android:id="@+id/partnerDetailDescription"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
+                android:textColor="@color/lightPurple"
+                android:gravity="start"
+                android:layout_marginBottom="16dp"
+                tools:text="John is a software developer who loves outdoor activities and reading fiction novels. He has a keen interest in technology and enjoys exploring new places." />
 
             <!-- Horizontal Layout for Additional Photos -->
-            <HorizontalScrollView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:text="More Photos"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/lightPurple"
+                android:layout_marginBottom="8dp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <LinearLayout
                     android:id="@+id/HorizontalLayout"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp" />
+                    android:padding="8dp">
+
+                </LinearLayout>
 
             </HorizontalScrollView>
 
@@ -70,3 +99,4 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

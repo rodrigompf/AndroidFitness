@@ -1,68 +1,80 @@
 package _usersProfiles
 
+import _main.Login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.androidfitness.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class Profile : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var storage: FirebaseStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile)
 
-        // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
 
-        // Get UI Elements
         val nameTextView = findViewById<TextView>(R.id.userName)
-        val emailTextView = findViewById<TextView>(R.id.userEmail)
+        val ageTextView = findViewById<TextView>(R.id.userAge)
+        val descriptionTextView = findViewById<TextView>(R.id.userDescription)
+        val profileImageView = findViewById<ImageView>(R.id.profileImage)
         val editProfileButton = findViewById<Button>(R.id.editProfileButton)
 
-        // Fetch Current User
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
             val userId = currentUser.uid
 
-            // Set Email from Auth
-            emailTextView.text = currentUser.email
-
-            // Check if the user already has a profile in the "Perfiles" collection
+            // Fetch the user's profile document from Firestore
             db.collection("Perfiles").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        // If profile exists, fetch the profile data
                         val userName = document.getString("name")
+                        val userAge = document.getLong("age")?.toInt()
+                        val userDescription = document.getString("description")
+                        val profileImageUrl = document.getString("profileImageUrl")
+
                         nameTextView.text = userName ?: "No Name Found"
+                        ageTextView.text = userAge?.toString() ?: "N/A"
+                        descriptionTextView.text = userDescription ?: "No Description"
+
+                        // Load the profile picture using Glide
+                        if (profileImageUrl != null) {
+                            Glide.with(this)
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.fitness_logo)
+                                .into(profileImageView)
+                        }
+
                     } else {
-                        // If profile doesn't exist, navigate to CreateProfile activity
                         Toast.makeText(this, "No profile found. Please create your profile.", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, CreateProfile::class.java)
                         startActivity(intent)
-                        finish() // Close Profile Activity
+                        finish()
                     }
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Error checking profile: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to fetch profile: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(this, "No user is currently logged in.", Toast.LENGTH_SHORT).show()
-            // Optionally redirect to Login Activity
+            Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show()
         }
 
-        // Edit Profile Button Click Listener
         editProfileButton.setOnClickListener {
-            // Navigate to Edit Profile Activity (you can create this if needed)
             val intent = Intent(this, EditProfile::class.java)
             startActivity(intent)
         }
