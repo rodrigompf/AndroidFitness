@@ -110,6 +110,7 @@ class FindTrainingPartners : AppCompatActivity() {
             .get()
             .addOnSuccessListener { result ->
                 profiles.clear()
+
                 for (document in result) {
                     val partner = document.toObject(PartnerProfile::class.java)
                     profiles.add(partner)

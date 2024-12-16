@@ -25,23 +25,23 @@ class PartnerAdapter(
         holder.bind(partner)
     }
 
-    override fun getItemCount(): Int {
-        return partnerList.size
-    }
+    override fun getItemCount(): Int = partnerList.size
 
     class PartnerViewHolder(itemView: View, private val onCardClick: (PartnerProfile) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val partnerNome: TextView = itemView.findViewById(R.id.partnerNome)
         private val partnerIdade: TextView = itemView.findViewById(R.id.partnerIdade)
-        private val partnerResumo: TextView = itemView.findViewById(R.id.partnerResumo)
-        private val partnerPicture: ImageView = itemView.findViewById(R.id.partnerPicture)
+
+        init {
+            itemView.setOnClickListener {
+                val partner = partnerList[adapterPosition]
+                onPartnerClick(partner)
+            }
+        }
 
         fun bind(partner: PartnerProfile) {
-            // Bind data to UI elements
             partnerNome.text = partner.nome
-            partnerIdade.text = partner.idade.toString()
-            partnerResumo.text = partner.resumo
+            partnerIdade.text = "Age: ${partner.idade}"
 
-            // Load image using Glide
             Glide.with(itemView.context)
                 .load(partner.picture)
                 .placeholder(R.drawable.ic_launcher)
@@ -54,4 +54,3 @@ class PartnerAdapter(
         }
     }
 }
-

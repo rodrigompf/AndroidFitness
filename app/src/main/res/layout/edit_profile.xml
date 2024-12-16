@@ -1,46 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="?android:attr/windowBackground">
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Title -->
-        <TextView
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:padding="8dp"
+            android:layout_gravity="center"
+             />
+
+        <!-- User Name -->
+        <EditText
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name"
+            android:inputType="textPersonName" />
+
+        <!-- User Age -->
+        <EditText
+            android:id="@+id/userAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter Age" />
+
+        <!-- User Description -->
+        <EditText
+            android:id="@+id/userDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Description"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:gravity="top"
+            android:paddingTop="8dp" />
+
+        <!-- Add Gallery Button -->
+        <Button
+            android:id="@+id/addGalleryImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textSize="24sp"
-            android:layout_marginBottom="16dp" />
+            android:text="Add to Gallery" />
 
-        <!-- Name Input -->
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
+        <!-- Gallery Layout -->
+        <LinearLayout
+            android:id="@+id/layoutimage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Enter your name"
-            android:layout_marginBottom="16dp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp" />
 
-        <!-- Email Display (Read-Only) -->
-        <EditText
-            android:id="@+id/emailDisplay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:enabled="false"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Save Changes Button -->
+        <!-- Save Button -->
         <Button
-            android:id="@+id/saveProfileButton"
-            android:layout_width="match_parent"
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Changes"
-            android:backgroundTint="?colorPrimary"
-            android:textColor="?colorOnPrimary" />
+            android:text="Save" />
+
     </LinearLayout>
+
 </ScrollView>
+

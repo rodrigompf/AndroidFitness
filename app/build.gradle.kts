@@ -46,6 +46,10 @@ dependencies {
     // Firebase services: Versions managed by BOM
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+
+    // Zoom
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     // Material Components
     implementation("com.google.android.material:material:1.9.0")
@@ -57,7 +61,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
-    // Image Loading with Glide
+    // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.15.1")
     implementation(libs.androidx.activity)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
@@ -65,7 +69,7 @@ dependencies {
     // Optional: Card Stack View
     implementation("com.github.yuyakaido:CardStackView:2.3.4")
 
-    // Testing
+    // Testing dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
