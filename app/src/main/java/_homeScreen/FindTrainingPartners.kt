@@ -1,6 +1,7 @@
 package _homeScreen
 
 import _homeScreen.DataBase.PartnerProfile
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -10,6 +11,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class FindTrainingPartners : AppCompatActivity() {
 
     private lateinit var partnersRecyclerView: RecyclerView
-    private lateinit var glowBackground: View
     private lateinit var partnerAdapter: PartnerAdapter
     private val profiles = mutableListOf<PartnerProfile>()
 
@@ -33,83 +34,72 @@ class FindTrainingPartners : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.find_training_partners)
 
+        val rootLayout = findViewById<FrameLayout>(R.id.rootLayout)
         partnersRecyclerView = findViewById(R.id.partnersRecyclerView)
-        glowBackground = findViewById(R.id.glowBackground)
         partnersRecyclerView.layoutManager = LinearLayoutManager(this)
-        partnerAdapter = PartnerAdapter(profiles)
+
+        partnerAdapter = PartnerAdapter(profiles) { partner ->
+
+            Toast.makeText(this, "Clicked on: ${partner.nome}", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, PartnerDetailActivity::class.java)
+            intent.putExtra("PARTNER_DATA", partner)
+            startActivity(intent)
+        }
         partnersRecyclerView.adapter = partnerAdapter
 
+        // Add swipe gesture handling
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-
             override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
             ): Boolean = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val swipedPosition = viewHolder.adapterPosition
-                profiles.removeAt(swipedPosition)
-                partnerAdapter.notifyItemRemoved(swipedPosition)
+                val swipedProfile = profiles[viewHolder.adapterPosition]
+                profiles.removeAt(viewHolder.adapterPosition)
 
-                if (profiles.isEmpty()) {
-                    fetchProfilesFromFirestore() // Refill profiles if needed
+                if (direction == ItemTouchHelper.RIGHT) {
+                    // Handle like
+                    Log.d("Swipe", "Liked: ${swipedProfile.nome}")
+                } else if (direction == ItemTouchHelper.LEFT) {
+                    // Handle dislike
+                    Log.d("Swipe", "Disliked: ${swipedProfile.nome}")
                 }
+
+                partnerAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                fetchRandomProfile()
             }
 
             override fun onChildDraw(
                 c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
             ) {
-                val width = recyclerView.width
                 val view = viewHolder.itemView
+                val width = rootLayout.width
 
-                // Horizontal translation
-                view.translationX = dX
+                // Set background color and intensity based on swipe direction
+                val glowColor = if (dX > 0) Color.argb((Math.abs(dX) / width * 255).toInt(), 255, 0, 0) // Red
+                else Color.argb((Math.abs(dX) / width * 255).toInt(), 0, 255, 0) // Green
 
-                // Tilt effect
-                val maxTiltAngle = 15f // Maximum tilt angle
-                val tilt = (dX / width) * maxTiltAngle
-                view.rotation = tilt
+                rootLayout.setBackgroundColor(glowColor)
 
-                // Falling effect
-                view.translationY = Math.abs(dX / 10)
-
-                // Glow effect for full screen
-                val glowIntensity = Math.min(Math.abs(dX) / width, 1f)
-                val gradientDrawable = GradientDrawable(
-                    if (dX > 0) GradientDrawable.Orientation.LEFT_RIGHT else GradientDrawable.Orientation.RIGHT_LEFT,
-                    intArrayOf(
-                        Color.TRANSPARENT,
-                        if (dX > 0) Color.RED else Color.GREEN
-                    )
-                )
-                glowBackground.alpha = glowIntensity
-                glowBackground.background = gradientDrawable
+                // Apply tilt effect
+                val maxTilt = 15f
+                view.rotation = (dX / width) * maxTilt
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
-
-                val view = viewHolder.itemView
-
-                // Reset rotation and translation when swipe ends
-                view.rotation = 0f
-                view.translationY = 0f
-
-                // Reset glow
-                glowBackground.alpha = 0f
-                glowBackground.background = null
+                val rootLayout = findViewById<FrameLayout>(R.id.rootLayout)
+                rootLayout.setBackgroundColor(Color.TRANSPARENT) // Reset background color
             }
         }
-
-
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(partnersRecyclerView)
 
-        FirebaseApp.initializeApp(this)
+        // Fetch profiles
         fetchProfilesFromFirestore()
     }
 
@@ -125,16 +115,20 @@ class FindTrainingPartners : AppCompatActivity() {
                     profiles.add(partner)
                 }
 
-                if (profiles.isNotEmpty()) {
-                    val randomProfile = profiles.random()
-                    profiles.clear()
-                    profiles.add(randomProfile)
-                    partnerAdapter.notifyDataSetChanged()
-                }
+                fetchRandomProfile() // Show a random profile
             }
             .addOnFailureListener { exception ->
                 Log.w("FindTrainingPartners", "Error getting documents: ", exception)
                 Toast.makeText(this, "Error loading profiles: ${exception.message}", Toast.LENGTH_LONG).show()
             }
+    }
+
+    private fun fetchRandomProfile() {
+        if (profiles.isNotEmpty()) {
+            val randomProfile = profiles.random()
+            profiles.clear()
+            profiles.add(randomProfile)
+            partnerAdapter.notifyDataSetChanged()
+        }
     }
 }

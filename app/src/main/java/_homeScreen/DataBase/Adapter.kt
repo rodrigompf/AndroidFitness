@@ -10,11 +10,14 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.androidfitness.R
 
-class PartnerAdapter(private val partnerList: List<PartnerProfile>) : RecyclerView.Adapter<PartnerAdapter.PartnerViewHolder>() {
+class PartnerAdapter(
+    private val partnerList: List<PartnerProfile>,
+    private val onCardClick: (PartnerProfile) -> Unit // Callback for card click
+) : RecyclerView.Adapter<PartnerAdapter.PartnerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartnerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.partner_card_item, parent, false)
-        return PartnerViewHolder(view)
+        return PartnerViewHolder(view, onCardClick)
     }
 
     override fun onBindViewHolder(holder: PartnerViewHolder, position: Int) {
@@ -26,7 +29,7 @@ class PartnerAdapter(private val partnerList: List<PartnerProfile>) : RecyclerVi
         return partnerList.size
     }
 
-    class PartnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PartnerViewHolder(itemView: View, private val onCardClick: (PartnerProfile) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val partnerNome: TextView = itemView.findViewById(R.id.partnerNome)
         private val partnerIdade: TextView = itemView.findViewById(R.id.partnerIdade)
         private val partnerResumo: TextView = itemView.findViewById(R.id.partnerResumo)
@@ -43,6 +46,11 @@ class PartnerAdapter(private val partnerList: List<PartnerProfile>) : RecyclerVi
                 .load(partner.picture)
                 .placeholder(R.drawable.ic_launcher)
                 .into(partnerPicture)
+
+            // Handle card click
+            itemView.setOnClickListener {
+                onCardClick(partner)
+            }
         }
     }
 }
