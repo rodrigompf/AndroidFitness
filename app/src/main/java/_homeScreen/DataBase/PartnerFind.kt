@@ -7,13 +7,15 @@ data class PartnerProfile(
     val nome: String,
     val idade: Int,
     val resumo: String,
-    val picture: String
+    val picture: String,
+    val images: List<String> // Added the images field
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.createStringArrayList() ?: emptyList() // Read images list from parcel
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -21,6 +23,7 @@ data class PartnerProfile(
         parcel.writeInt(idade)
         parcel.writeString(resumo)
         parcel.writeString(picture)
+        parcel.writeStringList(images) // Write images list to parcel
     }
 
     override fun describeContents(): Int = 0

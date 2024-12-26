@@ -21,7 +21,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -48,11 +48,17 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
 
+    // Cloudinary SDK for Android
+    implementation("com.cloudinary:cloudinary-android:2.2.0")  // Latest Cloudinary SDK
+
     // Zoom
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     // Material Components
     implementation("com.google.android.material:material:1.9.0")
+
+    // Google API Client (Fixing typo in the version)
+    implementation("com.google.android.gms:play-services-auth:20.3.0")
 
     // AndroidX libraries
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -63,7 +69,6 @@ dependencies {
 
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.15.1")
-    implementation(libs.androidx.activity)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     // Optional: Card Stack View
@@ -73,8 +78,11 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-}
 
+    implementation("com.google.android.material:material:1.7.0")
+
+}
 
 // Apply Google services plugin
 apply(plugin = "com.google.gms.google-services")
+
