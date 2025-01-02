@@ -14,7 +14,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Base64
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -68,17 +67,14 @@ class EditProfile : AppCompatActivity() {
         profileImageView.setOnClickListener { selectProfileImage() }
     }
 
-    // Check and request permissions for storage
     private fun checkAndRequestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // For Android 11 and above, request manage external storage permission
             if (!Environment.isExternalStorageManager()) {
                 val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
                 intent.data = Uri.parse("package:$packageName")
                 startActivityForResult(intent, STORAGE_PERMISSION_CODE)
             }
         } else {
-            // For lower versions, request normal storage permissions
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -100,29 +96,24 @@ class EditProfile : AppCompatActivity() {
         }
     }
 
-    // Handle image selection from gallery
     private fun selectProfileImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-    // Handle the result of the image selection
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             imageUri = data.data
             if (imageUri != null) {
-                // Resize and set image to ImageView
                 val resizedBitmap = resizeImage(imageUri!!, applicationContext)
                 profileImageView.setImageBitmap(resizedBitmap)
-                Log.d("ImageSelection", "Image URI: $imageUri")
             } else {
                 Toast.makeText(this, "Failed to select image", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Show permission denied dialog
     private fun showPermissionDeniedDialog() {
         AlertDialog.Builder(this)
             .setTitle("Permission Required")
@@ -136,12 +127,10 @@ class EditProfile : AppCompatActivity() {
             .show()
     }
 
-    // Resize image to reduce size
     private fun resizeImage(imageUri: Uri, context: Context): Bitmap? {
         val inputStream: InputStream? = context.contentResolver.openInputStream(imageUri)
         val originalBitmap = BitmapFactory.decodeStream(inputStream)
 
-        // Resize the bitmap to a smaller size
         val width = originalBitmap.width
         val height = originalBitmap.height
         val aspectRatio = width.toFloat() / height.toFloat()
@@ -151,40 +140,36 @@ class EditProfile : AppCompatActivity() {
         return Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, false)
     }
 
-    // Convert image Bitmap to Base64
-    private fun convertImageToBase64(bitmap: Bitmap, context: Context): String {
+    private fun convertImageToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
-    // Save profile data to Firestore
     private fun saveProfileData() {
         val user = auth.currentUser ?: return
         val userId = user.uid
-        val email = user.email ?: ""
         val name = userNameEditText.text.toString().trim()
         val age = userAgeEditText.text.toString().trim().toIntOrNull() ?: 0
         val description = userDescriptionEditText.text.toString().trim()
 
         val profileData = hashMapOf(
-            "name" to name,
-            "age" to age,
-            "email" to email,
-            "description" to description
+            "nome" to name,
+            "idade" to age,
+            "descrição" to description
         )
 
-        // Upload the profile image (in Base64 format) to Firestore
+        // Convert profile image to Base64 if imageUri is not null
         if (imageUri != null) {
             val resizedBitmap = resizeImage(imageUri!!, applicationContext)
-            val base64String = convertImageToBase64(resizedBitmap!!, applicationContext)
-
-            // Add the Base64 image string to the profile data
-            profileData["profileImage"] = base64String
+            if (resizedBitmap != null) {
+                val base64Image = convertImageToBase64(resizedBitmap)
+                profileData["picture"] = base64Image
+            }
         }
 
-        // Save the profile data to Firestore under the user's ID
+        // Save profile data to Firestore
         db.collection("Perfiles").document(userId).set(profileData)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
@@ -195,7 +180,6 @@ class EditProfile : AppCompatActivity() {
             }
     }
 
-    // Companion object for PICK_IMAGE_REQUEST constant
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
     }

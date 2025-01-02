@@ -41,10 +41,10 @@ class Profile : AppCompatActivity() {
             db.collection("Perfiles").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val userName = document.getString("name")
-                        val userAge = document.getLong("age")?.toInt()
-                        val userDescription = document.getString("description")
-                        val profileImageBase64 = document.getString("profileImage") // Get the Base64 image
+                        val userName = document.getString("nome")
+                        val userAge = document.getLong("idade")?.toInt()
+                        val userDescription = document.getString("descrição")
+                        val profileImageBase64 = document.getString("picture") // Get the Base64 image
 
                         nameTextView.text = userName ?: "No Name Found"
                         ageTextView.text = userAge?.toString() ?: "N/A"
@@ -83,3 +83,4 @@ class Profile : AppCompatActivity() {
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 }
+

@@ -58,7 +58,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
 
     // Google API Client (Fixing typo in the version)
-    implementation("com.google.android.gms:play-services-auth:20.3.0")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 
     // AndroidX libraries
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -69,6 +69,7 @@ dependencies {
 
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation(libs.androidx.activity)
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     // Optional: Card Stack View
