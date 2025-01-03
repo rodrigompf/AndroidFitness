@@ -35,6 +35,7 @@
             android:exported="false" />
         <activity android:name="_usersProfiles.CreateProfile" />
         <activity android:name="_usersProfiles.EditProfile" />
+        <activity android:name="_usersProfiles.EditGalleryActivity" />
         <activity android:name="_homeScreen.PartnerDetailsActivity" />
         <activity android:name="_usersProfiles.TrainingCalendar" />
         <activity android:name="_usersProfiles.Profile" />

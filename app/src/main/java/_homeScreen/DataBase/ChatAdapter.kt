@@ -1,10 +1,13 @@
 package _homeScreen.DataBase
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidfitness.R
@@ -15,23 +18,48 @@ class ChatAdapter(
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val partnerImage: ImageView = itemView.findViewById(R.id.partnerImage)
-        val partnerName: TextView = itemView.findViewById(R.id.partnerName)
+        private val partnerImage: ImageView = itemView.findViewById(R.id.partnerImage)
+        private val partnerName: TextView = itemView.findViewById(R.id.partnerName)
 
-        // Bind the data to the views
         fun bind(chatItem: ChatItem) {
-            // Set the name of the partner
             partnerName.text = chatItem.name
 
-            // Use Glide to load the image (URL or Base64)
-            Glide.with(itemView.context)
-                .load(chatItem.imageUrl)  // If it's a URL or Base64, Glide will handle it
-                .placeholder(R.drawable.ic_launcher_foreground)  // Placeholder image
-                .error(R.drawable.ic_launcher_foreground)  // Error image
-                .into(partnerImage)  // Set the image in the ImageView
+            // Load image based on whether it's Base64 or a URL
+            if (chatItem.imageBitmap != null) {
+                partnerImage.setImageBitmap(chatItem.imageBitmap)
+            } else {
+                loadImage(chatItem.imageUrl, partnerImage) // If it's not Base64, use the URL
+            }
 
-            // Set the click listener for the chat item
+            // Set click listener
             itemView.setOnClickListener { onItemClick(chatItem) }
+        }
+
+        private fun loadImage(imageData: String?, imageView: ImageView) {
+            if (imageData.isNullOrEmpty()) {
+                imageView.setImageResource(R.drawable.ic_launcher_foreground) // Placeholder for empty image
+                return
+            }
+
+            if (imageData.startsWith("http://") || imageData.startsWith("https://")) {
+                // Load image from URL using Glide
+                Glide.with(itemView.context)
+                    .load(imageData)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(imageView)
+            } else {
+                try {
+                    // Decode Base64 string and display
+                    val decodedString = Base64.decode(imageData, Base64.DEFAULT)
+                    val decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                    imageView.setImageBitmap(decodedBitmap)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(itemView.context, "Failed to load image", Toast.LENGTH_SHORT).show()
+                    imageView.setImageResource(R.drawable.ic_launcher_foreground) // Fallback image in case of error
+                }
+            }
         }
     }
 
@@ -41,13 +69,8 @@ class ChatAdapter(
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        val chatItem = chatList[position]
-
-        // Bind the chat item data to the ViewHolder
-        holder.bind(chatItem)
+        holder.bind(chatList[position])
     }
 
     override fun getItemCount(): Int = chatList.size
 }
-
-

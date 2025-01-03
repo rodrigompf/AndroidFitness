@@ -3,7 +3,10 @@ package _homeScreen
 import _homeScreen.DataBase.ChatAdapter
 import _homeScreen.DataBase.ChatItem
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,8 +73,6 @@ class Chat : AppCompatActivity() {
         }
     }
 
-
-
     private fun fetchPartnerProfile(partnerId: String, chatId: String) {
         val db = FirebaseFirestore.getInstance()
 
@@ -82,16 +83,21 @@ class Chat : AppCompatActivity() {
             .addOnSuccessListener { profileDoc ->
                 if (profileDoc.exists()) {
                     val partnerName = profileDoc.getString("nome") ?: "Unknown"
-                    val partnerImageUrl = profileDoc.getString("picture") ?: ""
+                    val pictureData = profileDoc.getString("picture") ?: ""
 
-                    // Log the fetched profile data
-                    Log.d("Chat", "Fetched profile: Name = $partnerName, Image URL = $partnerImageUrl, Partner ID = $partnerId")
+                    // Determine if the pictureData is Base64 or a URL
+                    val partnerImageBitmap: Bitmap? = if (isBase64Encoded(pictureData)) {
+                        decodeBase64ToBitmap(pictureData)
+                    } else {
+                        null // If not Base64, use URL directly in the adapter
+                    }
 
                     // Create ChatItem and add to the chat list
                     val chatItem = ChatItem(
                         id = chatId,
                         name = partnerName,
-                        imageUrl = partnerImageUrl,  // Use the fetched image URL
+                        imageBitmap = partnerImageBitmap, // Use Bitmap if Base64
+                        imageUrl = if (!isBase64Encoded(pictureData)) pictureData else null, // Use URL if it's not Base64
                         unreadCount = 0, // Example unread count
                         partnerId = partnerId  // Ensure partnerId is added to the chat item
                     )
@@ -107,7 +113,25 @@ class Chat : AppCompatActivity() {
             }
     }
 
+    // Helper function to check if a string is Base64 encoded
+    private fun isBase64Encoded(data: String): Boolean {
+        return try {
+            val decodedBytes = Base64.decode(data, Base64.DEFAULT)
+            val encodedString = Base64.encodeToString(decodedBytes, Base64.DEFAULT).trim()
+            data.trim() == encodedString // Check if re-encoded Base64 matches original
+        } catch (e: IllegalArgumentException) {
+            false // If decoding fails, it's not Base64
+        }
+    }
+
+    // Decode Base64 string to Bitmap
+    private fun decodeBase64ToBitmap(base64String: String): Bitmap {
+        val decodedString = Base64.decode(base64String, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+    }
+
 }
+
 
 
 

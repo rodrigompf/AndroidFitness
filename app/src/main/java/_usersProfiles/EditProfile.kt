@@ -39,6 +39,7 @@ class EditProfile : AppCompatActivity() {
     private lateinit var userAgeEditText: EditText
     private lateinit var userDescriptionEditText: EditText
     private lateinit var saveButton: Button
+    private lateinit var userResumoEditText: EditText // Add this to bind with the resumo field
 
     private val STORAGE_PERMISSION_CODE = 1001
     private var imageUri: Uri? = null
@@ -57,6 +58,7 @@ class EditProfile : AppCompatActivity() {
         userNameEditText = findViewById(R.id.userName)
         userAgeEditText = findViewById(R.id.userAge)
         userDescriptionEditText = findViewById(R.id.userDescription)
+        userResumoEditText = findViewById(R.id.userResumo) // Initialize this
         saveButton = findViewById(R.id.saveButton)
 
         // Request permissions
@@ -151,16 +153,29 @@ class EditProfile : AppCompatActivity() {
         val user = auth.currentUser ?: return
         val userId = user.uid
         val name = userNameEditText.text.toString().trim()
-        val age = userAgeEditText.text.toString().trim().toIntOrNull() ?: 0
+        val ageStr = userAgeEditText.text.toString().trim()
         val description = userDescriptionEditText.text.toString().trim()
+        val resumo = userResumoEditText.text.toString().trim() // Get resumo from the user input
 
-        val profileData = hashMapOf(
-            "nome" to name,
-            "idade" to age,
-            "descrição" to description
-        )
+        // Initialize an empty map to store the fields to update
+        val profileData = mutableMapOf<String, Any>()
 
-        // Convert profile image to Base64 if imageUri is not null
+        // Only add fields that are not empty
+        if (name.isNotEmpty()) {
+            profileData["nome"] = name
+        }
+        if (ageStr.isNotEmpty()) {
+            val age = ageStr.toIntOrNull() ?: 0
+            profileData["idade"] = age
+        }
+        if (description.isNotEmpty()) {
+            profileData["descrição"] = description
+        }
+        if (resumo.isNotEmpty()) {
+            profileData["resumo"] = resumo
+        }
+
+        // Convert profile image to Base64 if imageUri is not null and not empty
         if (imageUri != null) {
             val resizedBitmap = resizeImage(imageUri!!, applicationContext)
             if (resizedBitmap != null) {
@@ -169,16 +184,23 @@ class EditProfile : AppCompatActivity() {
             }
         }
 
-        // Save profile data to Firestore
-        db.collection("Perfiles").document(userId).set(profileData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to update profile: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        // Only proceed to update if the profileData map has any non-empty fields
+        if (profileData.isNotEmpty()) {
+            // Update profile data in Firestore
+            db.collection("Perfiles").document(userId).update(profileData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to update profile: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "No changes detected, nothing to update.", Toast.LENGTH_SHORT).show()
+        }
     }
+
+
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1

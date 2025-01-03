@@ -9,6 +9,6 @@ class TrainingCalendar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.training_calendar)
 
-        // Future implementation of calendar functionality will go here
+
     }
 }

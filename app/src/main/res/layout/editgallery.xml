@@ -1,0 +1,82 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- ScrollView for gallery and buttons -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:background="?android:attr/windowBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:minHeight="700dp"
+            android:background="@drawable/rounded_cornour"
+            android:elevation="4dp"
+            android:gravity="center_horizontal">
+
+            <!-- Gallery Title -->
+            <TextView
+                android:id="@+id/Edit_galleryyy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gallery:"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:textColor="@color/Purplerlight" />
+
+            <!-- Gallery Scroll View -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <LinearLayout
+                    android:id="@+id/galleryContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <!-- Button to add image -->
+                <Button
+                    android:id="@+id/addImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Image"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- Button to upload images to Firestore -->
+                <Button
+                    android:id="@+id/uploadImagesButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Images" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/backToProfileButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exit" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

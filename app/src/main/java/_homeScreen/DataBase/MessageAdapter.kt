@@ -68,5 +68,3 @@ class MessageAdapter(
 
     override fun getItemCount(): Int = messages.size
 }
-
-

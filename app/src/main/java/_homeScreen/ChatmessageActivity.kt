@@ -115,8 +115,6 @@ class ChatmessageActivity : AppCompatActivity() {
             }
     }
 
-
-
     private fun sendMessage(chatId: String, message: String) {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val partnerId = intent.getStringExtra("PARTNER_ID") ?: return
@@ -181,23 +179,30 @@ class ChatmessageActivity : AppCompatActivity() {
     }
 
     private fun loadImage(imageView: ImageView, imageUrl: String?, base64String: String?) {
-        if (!imageUrl.isNullOrEmpty()) {
-            Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(imageView)
-        } else if (!base64String.isNullOrEmpty()) {
+        // Check for a valid Base64 string
+        if (!base64String.isNullOrEmpty()) {
             try {
+                // Decode the Base64 string into a byte array
                 val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+                // Decode byte array into Bitmap
                 val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+
+                // Set the Bitmap to the ImageView
                 imageView.setImageBitmap(decodedBitmap)
             } catch (e: Exception) {
+                // Log the error and set a default image if decoding fails
                 e.printStackTrace()
-                imageView.setImageResource(R.drawable.ic_launcher_foreground) // Default image
+                imageView.setImageResource(R.drawable.ic_launcher_foreground) // Default error image
             }
+        } else if (!imageUrl.isNullOrEmpty()) {
+            // If URL is provided, load it using Glide
+            Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_launcher_foreground)  // Placeholder while loading
+                .into(imageView)
         } else {
-            imageView.setImageResource(R.drawable.ic_launcher_foreground) // Default image
+            // If no image URL or Base64 string, set a default image
+            imageView.setImageResource(R.drawable.ic_launcher_foreground)
         }
     }
-
 }

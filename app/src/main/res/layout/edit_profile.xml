@@ -32,6 +32,16 @@
             android:inputType="number" />
 
         <EditText
+            android:id="@+id/userResumo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Resumo"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:gravity="top"
+            android:paddingTop="8dp" />
+
+        <EditText
             android:id="@+id/userDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
