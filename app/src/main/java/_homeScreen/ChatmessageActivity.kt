@@ -2,6 +2,8 @@ package _homeScreen
 
 import _homeScreen.DataBase.MessageAdapter
 import _homeScreen.DataBase.MessageItem
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -31,6 +33,8 @@ class ChatmessageActivity : AppCompatActivity() {
     private lateinit var sendButton: ImageButton
     private lateinit var messageEditText: EditText
     private val db = FirebaseFirestore.getInstance()
+
+    private var partnerId: String? = null // Store partnerId
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +69,7 @@ class ChatmessageActivity : AppCompatActivity() {
             return
         }
 
-        val partnerId = intent.getStringExtra("PARTNER_ID")
+        partnerId = intent.getStringExtra("PARTNER_ID")
         if (partnerId.isNullOrBlank()) {
             Log.e("ChatmessageActivity", "PARTNER_ID is null or blank")
             Toast.makeText(this, "Invalid partner ID", Toast.LENGTH_SHORT).show()
@@ -77,7 +81,7 @@ class ChatmessageActivity : AppCompatActivity() {
 
         // Load messages and partner details
         loadMessages(chatId)
-        fetchPartnerProfile(partnerId)
+        fetchPartnerProfile(partnerId!!)
 
         // Set up send button
         sendButton.setOnClickListener {
@@ -85,6 +89,25 @@ class ChatmessageActivity : AppCompatActivity() {
             if (message.isNotBlank()) {
                 sendMessage(chatId, message)
             }
+        }
+        setClickListeners()
+    }
+
+    private fun openPartnerDetailsActivity() {
+        // Open PartnerDetailsActivity and pass the partnerId
+        val intent = Intent(this, PartnerDetailsActivity::class.java)
+        intent.putExtra("PARTNER_ID", partnerId)
+        startActivity(intent)
+    }
+    private fun setClickListeners() {
+        // Make the partner's name clickable
+        contactNameTextView.setOnClickListener {
+            openPartnerDetailsActivity()
+        }
+
+        // Make the partner's profile image clickable
+        contactImageView.setOnClickListener {
+            openPartnerDetailsActivity()
         }
     }
 
@@ -166,43 +189,52 @@ class ChatmessageActivity : AppCompatActivity() {
             .addOnSuccessListener { profileDoc ->
                 if (profileDoc.exists()) {
                     val partnerName = profileDoc.getString("nome") ?: "Unknown"
-                    val partnerImageUrl = profileDoc.getString("picture") ?: ""
-                    val partnerBase64 = profileDoc.getString("base64Image") ?: "" // Add this key if base64 string is stored
+                    val pictureData = profileDoc.getString("picture") ?: ""
+
+                    // Determine if the pictureData is Base64 or a URL
+                    val partnerImageBitmap: Bitmap? = if (isBase64Encoded(pictureData)) {
+                        decodeBase64ToBitmap(pictureData)
+                    } else {
+                        null // If not Base64, use URL directly in the adapter
+                    }
 
                     // Set partner's name in the TextView
                     contactNameTextView.text = partnerName
 
-                    // Load image (either URL or Base64)
-                    loadImage(contactImageView, partnerImageUrl, partnerBase64)
+                    // Load the partner's image (Base64 or URL)
+                    loadPartnerImage(partnerImageBitmap, pictureData)
                 }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("ChatmessageActivity", "Error fetching profile: $partnerId", exception)
             }
     }
 
-    private fun loadImage(imageView: ImageView, imageUrl: String?, base64String: String?) {
-        // Check for a valid Base64 string
-        if (!base64String.isNullOrEmpty()) {
-            try {
-                // Decode the Base64 string into a byte array
-                val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
-                // Decode byte array into Bitmap
-                val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+    private fun isBase64Encoded(data: String): Boolean {
+        return try {
+            val decodedBytes = Base64.decode(data, Base64.DEFAULT)
+            val encodedString = Base64.encodeToString(decodedBytes, Base64.DEFAULT).trim()
+            data.trim() == encodedString // Check if re-encoded Base64 matches original
+        } catch (e: IllegalArgumentException) {
+            false // If decoding fails, it's not Base64
+        }
+    }
 
-                // Set the Bitmap to the ImageView
-                imageView.setImageBitmap(decodedBitmap)
-            } catch (e: Exception) {
-                // Log the error and set a default image if decoding fails
-                e.printStackTrace()
-                imageView.setImageResource(R.drawable.ic_launcher_foreground) // Default error image
-            }
-        } else if (!imageUrl.isNullOrEmpty()) {
-            // If URL is provided, load it using Glide
+    private fun decodeBase64ToBitmap(base64String: String): Bitmap {
+        val decodedString = Base64.decode(base64String, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+    }
+
+    private fun loadPartnerImage(bitmap: Bitmap?, imageUrl: String) {
+        if (bitmap != null) {
+            contactImageView.setImageBitmap(bitmap)
+        } else if (imageUrl.isNotEmpty()) {
             Glide.with(this)
                 .load(imageUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)  // Placeholder while loading
-                .into(imageView)
+                .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
+                .into(contactImageView)
         } else {
-            // If no image URL or Base64 string, set a default image
-            imageView.setImageResource(R.drawable.ic_launcher_foreground)
+            contactImageView.setImageResource(R.drawable.ic_launcher_foreground) // Default image
         }
     }
 }

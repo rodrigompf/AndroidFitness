@@ -75,6 +75,9 @@ dependencies {
     // Optional: Card Stack View
     implementation("com.github.yuyakaido:CardStackView:2.3.4")
 
+    //Image zoom and pop up
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+
     // Testing dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

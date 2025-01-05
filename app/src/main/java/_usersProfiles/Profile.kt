@@ -40,16 +40,21 @@ class Profile : AppCompatActivity() {
         if (currentUser != null) {
             val userId = currentUser.uid
 
-            // Fetch the user's profile document from Firestore
-            db.collection("Perfiles").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val userName = document.getString("nome")
-                        val userAge = document.getLong("idade")?.toInt()
-                        val userDescription = document.getString("descrição")
-                        val userResumo = document.getString("resumo")  // Fetch resumo
-                        val profileImageBase64 = document.getString("picture")
-                        val galleryImagesBase64 = document.get("images") as? List<String> ?: emptyList()
+            // Set up a real-time listener for the user's profile document
+            db.collection("Perfiles").document(userId)
+                .addSnapshotListener { documentSnapshot, exception ->
+                    if (exception != null) {
+                        Toast.makeText(this, "Failed to fetch profile: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        return@addSnapshotListener
+                    }
+
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        val userName = documentSnapshot.getString("nome")
+                        val userAge = documentSnapshot.getLong("idade")?.toInt()
+                        val userDescription = documentSnapshot.getString("descrição")
+                        val userResumo = documentSnapshot.getString("resumo")  // Fetch resumo
+                        val profileImageBase64 = documentSnapshot.getString("picture")
+                        val galleryImagesBase64 = documentSnapshot.get("images") as? List<String> ?: emptyList()
 
                         // Display user info
                         nameTextView.text = userName ?: "No Name Found"
@@ -72,18 +77,15 @@ class Profile : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
-
-                    // Edit Gallery Button
-                    val editGalleryButton = findViewById<Button>(R.id.Edit_Gallery)
-                    editGalleryButton.setOnClickListener {
-                        val intent = Intent(this, EditGalleryActivity::class.java)
-                        startActivity(intent)
-                    }
-
                 }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Failed to fetch profile: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
+
+            // Edit Gallery Button
+            val editGalleryButton = findViewById<Button>(R.id.Edit_Gallery)
+            editGalleryButton.setOnClickListener {
+                val intent = Intent(this, EditGalleryActivity::class.java)
+                startActivity(intent)
+            }
+
         } else {
             Toast.makeText(this, "No user logged in", Toast.LENGTH_SHORT).show()
         }

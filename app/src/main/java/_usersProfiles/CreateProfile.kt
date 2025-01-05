@@ -32,11 +32,10 @@ class CreateProfile : AppCompatActivity() {
                 val userId = currentUser.uid
 
                 val userProfile = mapOf(
-                    "name" to name,
+                    "nome" to name,
                     "email" to currentUser.email
                 )
 
-                // Save profile to Perfiles collection
                 db.collection("Perfiles").document(userId).set(userProfile)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Profile created successfully.", Toast.LENGTH_SHORT).show()

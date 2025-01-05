@@ -1,6 +1,7 @@
 package _homeScreen
 
 import _homeScreen.DataBase.PartnerProfile
+import android.app.Dialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.androidfitness.R
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PartnerDetailsActivity : AppCompatActivity() {
@@ -58,6 +60,11 @@ class PartnerDetailsActivity : AppCompatActivity() {
 
         loadImage(partner.picture, partnerImage)
 
+        // Set up click listener for the main image to view full-screen
+        partnerImage.setOnClickListener {
+            openFullScreenImage(partner.picture)
+        }
+
         horizontalLayout.removeAllViews()
         partner.images?.forEach { imageData ->
             val imageView = ImageView(this).apply {
@@ -67,6 +74,11 @@ class PartnerDetailsActivity : AppCompatActivity() {
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
             loadImage(imageData, imageView)
+
+            // Add click listener to open full-screen dialog on image click
+            imageView.setOnClickListener {
+                openFullScreenImage(imageData)
+            }
             horizontalLayout.addView(imageView)
         }
     }
@@ -92,5 +104,33 @@ class PartnerDetailsActivity : AppCompatActivity() {
                 imageView.setImageResource(R.drawable.ic_launcher)
             }
         }
+    }
+
+    private fun openFullScreenImage(imageData: String) {
+        val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.setContentView(R.layout.fullscreenimagem)
+
+        val photoView: PhotoView = dialog.findViewById(R.id.photoView)
+
+        if (imageData.startsWith("http://") || imageData.startsWith("https://")) {
+            Glide.with(this)
+                .load(imageData)
+                .placeholder(R.drawable.ic_launcher)
+                .into(photoView)
+        } else {
+            try {
+                if (imageData.isNotEmpty()) {
+                    val decodedString = Base64.decode(imageData, Base64.DEFAULT)
+                    val decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                    photoView.setImageBitmap(decodedBitmap)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.setCancelable(true)
+        dialog.show()
     }
 }

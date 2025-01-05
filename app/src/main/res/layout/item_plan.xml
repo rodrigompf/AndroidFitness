@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Title -->
+    <EditText
+        android:id="@+id/planTitleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:background="@null"
+        android:gravity="center" />
+
+    <!-- Horizontal Row for Description and Calories -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- Description -->
+        <EditText
+            android:id="@+id/planDescriptionEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:gravity="center"
+            android:layout_weight="3"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Calories -->
+        <EditText
+            android:id="@+id/planCaloriesEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Calories"
+            android:inputType="number"
+            android:gravity="center"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/deletePlanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Plan" />
+</LinearLayout>
